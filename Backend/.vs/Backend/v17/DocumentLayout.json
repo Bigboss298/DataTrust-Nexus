@@ -1,0 +1,268 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\controllers\\datacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:controllers\\datacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\implementations\\services\\dataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:implementations\\services\\dataservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\controllers\\institutioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:controllers\\institutioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\implementations\\services\\auditservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:implementations\\services\\auditservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\implementations\\services\\blobstorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:implementations\\services\\blobstorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\backend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:backend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\controllers\\auditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:controllers\\auditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\implementations\\services\\institutionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:implementations\\services\\institutionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\implementations\\services\\accessservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:implementations\\services\\accessservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\services\\contractabiloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:services\\contractabiloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\implementations\\services\\ipfsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:implementations\\services\\ipfsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|c:\\users\\stone\\desktop\\veridag\\backend\\implementations\\services\\encryptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FEA1102-EFCC-41C2-BA1C-12D4FBF212B5}|Backend.csproj|solutionrelative:implementations\\services\\encryptionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "EncryptionService.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\EncryptionService.cs",
+              "RelativeDocumentMoniker": "Implementations\\Services\\EncryptionService.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\EncryptionService.cs",
+              "RelativeToolTip": "Implementations\\Services\\EncryptionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T07:39:00.571Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "InstitutionController.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Controllers\\InstitutionController.cs",
+              "RelativeDocumentMoniker": "Controllers\\InstitutionController.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Controllers\\InstitutionController.cs",
+              "RelativeToolTip": "Controllers\\InstitutionController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAAC0AAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T07:31:34.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BlobStorageService.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\BlobStorageService.cs",
+              "RelativeDocumentMoniker": "Implementations\\Services\\BlobStorageService.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\BlobStorageService.cs",
+              "RelativeToolTip": "Implementations\\Services\\BlobStorageService.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAEEAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T21:52:08.874Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuditService.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\AuditService.cs",
+              "RelativeDocumentMoniker": "Implementations\\Services\\AuditService.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\AuditService.cs",
+              "RelativeToolTip": "Implementations\\Services\\AuditService.cs",
+              "ViewState": "AgIAAPkAAAAAAAAAAAAQwAsBAABvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T08:15:30.29Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DataService.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\DataService.cs",
+              "RelativeDocumentMoniker": "Implementations\\Services\\DataService.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\DataService.cs",
+              "RelativeToolTip": "Implementations\\Services\\DataService.cs",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAqwMEAAABuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T08:15:33.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DataController.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Controllers\\DataController.cs",
+              "RelativeDocumentMoniker": "Controllers\\DataController.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Controllers\\DataController.cs",
+              "RelativeToolTip": "Controllers\\DataController.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAqwDoAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T04:10:56.611Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IpfsService.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\IpfsService.cs",
+              "RelativeDocumentMoniker": "Implementations\\Services\\IpfsService.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\IpfsService.cs",
+              "RelativeToolTip": "Implementations\\Services\\IpfsService.cs",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T07:39:06.597Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "appsettings.Development.json",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\appsettings.Development.json",
+              "RelativeToolTip": "appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-19T04:51:01.958Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ContractAbiLoader.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Services\\ContractAbiLoader.cs",
+              "RelativeDocumentMoniker": "Services\\ContractAbiLoader.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Services\\ContractAbiLoader.cs",
+              "RelativeToolTip": "Services\\ContractAbiLoader.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAADkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T07:39:54.651Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Backend.http",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Backend.http",
+              "RelativeDocumentMoniker": "Backend.http",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Backend.http",
+              "RelativeToolTip": "Backend.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-10-19T04:29:09.312Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-19T04:29:23.836Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T04:29:05.145Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AuditController.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Controllers\\AuditController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuditController.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Controllers\\AuditController.cs",
+              "RelativeToolTip": "Controllers\\AuditController.cs",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-19T03:58:00.249Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "InstitutionService.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\InstitutionService.cs",
+              "RelativeDocumentMoniker": "Implementations\\Services\\InstitutionService.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\InstitutionService.cs",
+              "RelativeToolTip": "Implementations\\Services\\InstitutionService.cs",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAqwMkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T08:15:39.223Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AccessService.cs",
+              "DocumentMoniker": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\AccessService.cs",
+              "RelativeDocumentMoniker": "Implementations\\Services\\AccessService.cs",
+              "ToolTip": "C:\\Users\\stone\\Desktop\\VeriDAG\\Backend\\Implementations\\Services\\AccessService.cs",
+              "RelativeToolTip": "Implementations\\Services\\AccessService.cs",
+              "ViewState": "AgIAAOkAAAAAAAAAAAAYwPUAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T08:15:22.778Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

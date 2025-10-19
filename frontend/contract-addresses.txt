@@ -1,0 +1,33 @@
+# ========================================================
+# DEPLOYED CONTRACT ADDRESSES - BlockDAG Testnet
+# ========================================================
+# 
+# Copy these values to your frontend/.env file:
+#
+
+VITE_API_BASE_URL=http://localhost:5000/api
+
+# BlockDAG Configuration
+VITE_CHAIN_ID=1043
+VITE_BLOCKCHAIN_RPC_URL=https://rpc.awakening.bdagscan.com
+
+# Deployed Contract Addresses
+VITE_INSTITUTION_REGISTRY_ADDRESS=0x5e845012B9c5347daB42DA4b5AC2669970b3B5cE
+VITE_DATA_VAULT_ADDRESS=0x8D9e9A1999C8D33E335bEA01A25E0A6698D32168
+VITE_ACCESS_CONTROL_ADDRESS=0x6e951aC90F0ea195af2991938DCcBbD845c424D3
+VITE_AUDIT_TRAIL_ADDRESS=0x4b7CFa26D4e5abA247240B117a8B25fBB7476261
+
+# IPFS Configuration
+VITE_IPFS_GATEWAY=http://localhost:8080/ipfs/
+
+# Block Explorer
+VITE_BLOCKDAG_EXPLORER=https://awakening.bdagscan.com
+
+# ========================================================
+# CONTRACT LINKS:
+# ========================================================
+# InstitutionRegistry:    https://awakening.bdagscan.com/address/0x5e845012B9c5347daB42DA4b5AC2669970b3B5cE
+# DataVaultContract:      https://awakening.bdagscan.com/address/0x8D9e9A1999C8D33E335bEA01A25E0A6698D32168
+# AccessControlContract:  https://awakening.bdagscan.com/address/0x6e951aC90F0ea195af2991938DCcBbD845c424D3
+# AuditTrailContract:     https://awakening.bdagscan.com/address/0x4b7CFa26D4e5abA247240B117a8B25fBB7476261
+

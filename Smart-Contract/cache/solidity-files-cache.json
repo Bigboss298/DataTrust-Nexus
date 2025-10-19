@@ -1,0 +1,153 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\stone\\Desktop\\VeriDAG\\Smart-Contract\\contracts\\AccessControlContract.sol": {
+      "lastModificationDate": 1760752048967,
+      "contentHash": "1394ac0997009375d64f87927b2a741c",
+      "sourceName": "contracts/AccessControlContract.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "AccessControlContract"
+      ]
+    },
+    "C:\\Users\\stone\\Desktop\\VeriDAG\\Smart-Contract\\contracts\\AuditTrailContract.sol": {
+      "lastModificationDate": 1760752132409,
+      "contentHash": "120586e76693ce17b48ad2b3bf73e1cf",
+      "sourceName": "contracts/AuditTrailContract.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "AuditTrailContract"
+      ]
+    },
+    "C:\\Users\\stone\\Desktop\\VeriDAG\\Smart-Contract\\contracts\\DataVaultContract.sol": {
+      "lastModificationDate": 1760752048958,
+      "contentHash": "a788b156798a80249980735802158ee5",
+      "sourceName": "contracts/DataVaultContract.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "DataVaultContract"
+      ]
+    },
+    "C:\\Users\\stone\\Desktop\\VeriDAG\\Smart-Contract\\contracts\\InstitutionRegistry.sol": {
+      "lastModificationDate": 1760752048939,
+      "contentHash": "052b2a8b7c31012e82c6a174282a9708",
+      "sourceName": "contracts/InstitutionRegistry.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "viaIR": true,
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "InstitutionRegistry"
+      ]
+    }
+  }
+}
