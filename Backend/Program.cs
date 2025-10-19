@@ -16,6 +16,7 @@ builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 builder.Services.AddScoped<IInstitutionService, InstitutionService>();
 builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddScoped<IAccessService, AccessService>();
+builder.Services.AddScoped<IAccessRequestService, AccessRequestService>();
 builder.Services.AddScoped<IAuditService, AuditService>();
 
 // Register HttpClient for IPFS

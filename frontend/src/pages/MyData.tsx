@@ -6,7 +6,6 @@ import {
   Database, 
   Search, 
   Filter, 
-  Download, 
   Eye, 
   Lock, 
   Unlock,
@@ -58,7 +57,8 @@ export const MyData = () => {
       
       switch (sortBy) {
         case 'date':
-          comparison = new Date(a.uploadedAt).getTime() - new Date(b.uploadedAt).getTime();
+          // uploadedAt is Unix timestamp in seconds, convert to milliseconds
+          comparison = (a.uploadedAt * 1000) - (b.uploadedAt * 1000);
           break;
         case 'name':
           comparison = a.fileName.localeCompare(b.fileName);
@@ -270,6 +270,7 @@ export const MyData = () => {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-white">{record.fileName}</p>
+                          <p className="text-xs text-gray-500 font-mono mt-0.5">ID: {record.recordId}</p>
                           {record.description && (
                             <p className="text-xs text-gray-400 mt-0.5 truncate max-w-xs">
                               {record.description}
@@ -288,7 +289,7 @@ export const MyData = () => {
                       {formatFileSize(record.fileSize)}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-400">
-                      {new Date(record.uploadedAt).toLocaleDateString('en-US', {
+                      {new Date(record.uploadedAt * 1000).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
@@ -324,9 +325,9 @@ export const MyData = () => {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => window.open(`https://ipfs.io/ipfs/${record.ipfsHash}`, '_blank')}
+                          onClick={() => window.open(record.ipfsHash, '_blank')}
                           className="p-2 bg-blue-500/20 text-blue-400 rounded hover:bg-blue-500/30 transition"
-                          title="View on IPFS"
+                          title="View File"
                         >
                           <Eye size={16} />
                         </button>

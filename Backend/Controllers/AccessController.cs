@@ -1,4 +1,5 @@
 using DataTrustNexus.Api.Interfaces;
+using DataTrustNexus.Api.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DataTrustNexus.Api.Controllers;
@@ -8,13 +9,16 @@ namespace DataTrustNexus.Api.Controllers;
 public class AccessController : ControllerBase
 {
     private readonly IAccessService _accessService;
+    private readonly IAccessRequestService _accessRequestService;
     private readonly ILogger<AccessController> _logger;
 
     public AccessController(
         IAccessService accessService,
+        IAccessRequestService accessRequestService,
         ILogger<AccessController> logger)
     {
         _accessService = accessService;
+        _accessRequestService = accessRequestService;
         _logger = logger;
     }
 
@@ -238,6 +242,138 @@ public class AccessController : ControllerBase
         {
             _logger.LogError(ex, "Error updating permission");
             return StatusCode(500, new { success = false, message = "Failed to update permission", error = ex.Message });
+        }
+    }
+
+    // ========== ACCESS REQUEST ENDPOINTS ==========
+
+    /// <summary>
+    /// Submit a request for access to a data record
+    /// </summary>
+    [HttpPost("request")]
+    public async Task<IActionResult> SubmitAccessRequest([FromBody] SubmitAccessRequestDto request)
+    {
+        try
+        {
+            var walletAddress = Request.Headers["X-Wallet-Address"].ToString();
+            if (string.IsNullOrEmpty(walletAddress))
+            {
+                return BadRequest(new { success = false, message = "Wallet address is required" });
+            }
+
+            _logger.LogInformation("Submitting access request for record {RecordId} by {Requester}", 
+                request.RecordId, walletAddress);
+
+            var result = await _accessRequestService.SubmitAccessRequestAsync(request, walletAddress);
+
+            return Ok(new
+            {
+                success = true,
+                message = "Access request submitted successfully",
+                requestId = result.Id,
+                recordId = result.RecordId,
+                status = result.Status
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error submitting access request");
+            return StatusCode(500, new { success = false, message = "Failed to submit access request", error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Get pending access requests for an owner
+    /// </summary>
+    [HttpGet("requests/pending/{ownerAddress}")]
+    public async Task<IActionResult> GetPendingRequests(string ownerAddress)
+    {
+        try
+        {
+            _logger.LogInformation("Fetching pending requests for owner {Owner}", ownerAddress);
+            var requests = await _accessRequestService.GetPendingRequestsAsync(ownerAddress);
+            return Ok(requests);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching pending requests");
+            return StatusCode(500, new { message = "Failed to fetch pending requests", error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Get access requests submitted by a user
+    /// </summary>
+    [HttpGet("requests/my/{requesterAddress}")]
+    public async Task<IActionResult> GetMyRequests(string requesterAddress)
+    {
+        try
+        {
+            _logger.LogInformation("Fetching requests for {Requester}", requesterAddress);
+            var requests = await _accessRequestService.GetMyRequestsAsync(requesterAddress);
+            return Ok(requests);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching my requests");
+            return StatusCode(500, new { message = "Failed to fetch requests", error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Respond to an access request (approve or deny)
+    /// </summary>
+    [HttpPost("requests/respond")]
+    public async Task<IActionResult> RespondToRequest([FromBody] RespondToRequestDto request)
+    {
+        try
+        {
+            var walletAddress = Request.Headers["X-Wallet-Address"].ToString();
+            if (string.IsNullOrEmpty(walletAddress))
+            {
+                return BadRequest(new { success = false, message = "Wallet address is required" });
+            }
+
+            _logger.LogInformation("Responding to request {RequestId} with action {Action}", 
+                request.RequestId, request.Action);
+
+            var result = await _accessRequestService.RespondToRequestAsync(request, walletAddress);
+
+            if (result == null)
+            {
+                return NotFound(new { success = false, message = "Request not found or unauthorized" });
+            }
+
+            return Ok(new
+            {
+                success = true,
+                message = $"Access request {request.Action}",
+                requestId = result.Id,
+                status = result.Status
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error responding to request");
+            return StatusCode(500, new { success = false, message = "Failed to respond to request", error = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Check if user has a pending request for a record
+    /// </summary>
+    [HttpGet("requests/check")]
+    public async Task<IActionResult> CheckPendingRequest([FromQuery] string recordId, [FromQuery] string requesterAddress)
+    {
+        try
+        {
+            var hasPending = await _accessRequestService.HasPendingRequestAsync(recordId, requesterAddress);
+            return Ok(new { recordId, requesterAddress, hasPending });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error checking pending request");
+            return StatusCode(500, new { message = "Failed to check request", error = ex.Message });
         }
     }
 }

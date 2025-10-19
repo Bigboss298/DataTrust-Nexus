@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useWalletStore } from '../stores/wallet-store';
-import { Upload, FileText, CheckCircle, AlertCircle, X, Database } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, X } from 'lucide-react';
 import { ethers } from 'ethers';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218';

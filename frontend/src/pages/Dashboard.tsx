@@ -10,7 +10,7 @@ import { Shield, Upload, CheckCircle, Users, AlertCircle, Building2, Lock, Unloc
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const { address, isConnected } = useWalletStore();
+  const { address } = useWalletStore();
   const { currentInstitution, getInstitutionByWallet } = useInstitutionStore();
   const { records, getInstitutionRecords } = useDataStore();
   const { statistics, recentLogs, getStatistics, getRecentLogs } = useAuditStore();
@@ -152,7 +152,7 @@ export const Dashboard = () => {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {actionTypeData.map((entry, index) => (
+                  {actionTypeData.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -275,7 +275,7 @@ export const Dashboard = () => {
                     <td className="py-3 text-white">{record.fileName}</td>
                     <td className="py-3 text-gray-400">{record.category}</td>
                     <td className="py-3 text-gray-400">
-                      {new Date(record.uploadedAt).toLocaleDateString()}
+                      {new Date(record.uploadedAt * 1000).toLocaleDateString()}
                     </td>
                     <td className="py-3">
                       <span
@@ -334,12 +334,12 @@ export const Dashboard = () => {
           {grantedPermissions.length > 0 ? (
             <div className="space-y-3">
               {grantedPermissions.slice(0, 3).map((permission) => (
-                <div key={permission.permissionId} className="p-3 bg-slate-700 rounded-lg">
+                <div key={permission.id} className="p-3 bg-slate-700 rounded-lg">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <p className="text-sm text-white font-medium">{permission.recordId}</p>
                       <p className="text-xs text-gray-400 mt-1">
-                        To: {permission.granteeName || permission.granteeWalletAddress.slice(0, 10)}...
+                        To: {permission.granteeWalletAddress.slice(0, 10)}...
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
                         {new Date(permission.grantedAt).toLocaleDateString()}
@@ -380,12 +380,12 @@ export const Dashboard = () => {
           {receivedPermissions.length > 0 ? (
             <div className="space-y-3">
               {receivedPermissions.slice(0, 3).map((permission) => (
-                <div key={permission.permissionId} className="p-3 bg-slate-700 rounded-lg">
+                <div key={permission.id} className="p-3 bg-slate-700 rounded-lg">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <p className="text-sm text-white font-medium">{permission.recordId}</p>
                       <p className="text-xs text-gray-400 mt-1">
-                        From: {permission.granterName || permission.granterWalletAddress.slice(0, 10)}...
+                        From: {permission.granteeWalletAddress.slice(0, 10)}...
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
                         {new Date(permission.grantedAt).toLocaleDateString()}

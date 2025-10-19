@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { WalletConnect } from './WalletConnect';
 import { useWalletStore } from '../stores/wallet-store';
 import { useInstitutionStore } from '../stores/institution-store';
-import { Shield, LayoutDashboard, Upload, Lock, CheckCircle, FileText, Building2, Database } from 'lucide-react';
+import { Shield, LayoutDashboard, Upload, Lock, CheckCircle, FileText, Building2, Database, Mail, FolderOpen } from 'lucide-react';
 
 export const Layout = () => {
   const location = useLocation();
@@ -28,9 +28,11 @@ export const Layout = () => {
   const navItems = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { path: '/dashboard/my-data', label: 'My Data', icon: Database },
+    { path: '/dashboard/browse-files', label: 'Browse Files', icon: FolderOpen },
     { path: '/dashboard/upload', label: 'Upload Data', icon: Upload },
     { path: '/dashboard/bulk-upload', label: 'Bulk Upload', icon: Database },
     { path: '/dashboard/access-control', label: 'Access Control', icon: Lock },
+    { path: '/dashboard/access-requests', label: 'Access Requests', icon: Mail },
     { path: '/dashboard/verify', label: 'Verify Data', icon: CheckCircle },
     { path: '/dashboard/audit-logs', label: 'Audit Logs', icon: FileText },
   ];

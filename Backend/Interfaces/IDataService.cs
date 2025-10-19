@@ -23,6 +23,7 @@ public class DataRecordInfo
     public string RecordId { get; set; } = string.Empty;
     public string DataHash { get; set; } = string.Empty;
     public string Owner { get; set; } = string.Empty;
+    public string OwnerName { get; set; } = string.Empty;
     public string FileName { get; set; } = string.Empty;
     public string FileType { get; set; } = string.Empty;
     public long FileSize { get; set; }

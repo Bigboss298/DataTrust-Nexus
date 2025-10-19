@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useWalletStore } from '../stores/wallet-store';
 import { useDataStore } from '../stores/data-store';
 import { useAccessStore } from '../stores/access-store';
-import { CheckCircle, AlertCircle, Search, Shield, FileText, ExternalLink } from 'lucide-react';
+import { CheckCircle, AlertCircle, Search, Shield, FileText } from 'lucide-react';
 
 export const VerifyData = () => {
   const { address, isConnected } = useWalletStore();
@@ -72,7 +72,7 @@ export const VerifyData = () => {
           <div className="space-y-3">
             {receivedPermissions.map((permission) => (
               <div
-                key={permission.permissionId}
+                key={permission.id}
                 className={`p-4 rounded-lg border transition ${
                   selectedRecord === permission.recordId
                     ? 'border-primary-500 bg-primary-500/10'
@@ -85,7 +85,7 @@ export const VerifyData = () => {
                     <div>
                       <p className="text-white font-medium">{permission.recordId}</p>
                       <p className="text-xs text-gray-400 mt-1">
-                        From: {permission.granterName || permission.granterWalletAddress}
+                        From: {permission.granteeWalletAddress}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
                         Granted: {new Date(permission.grantedAt).toLocaleDateString()}
@@ -200,7 +200,7 @@ export const VerifyData = () => {
                     <div>
                       <p className="text-gray-400 mb-1">Uploaded</p>
                       <p className="text-white">
-                        {new Date(verificationResult.recordDetails.uploadedAt).toLocaleDateString()}
+                        {new Date(verificationResult.recordDetails.uploadedAt * 1000).toLocaleDateString()}
                       </p>
                     </div>
                   </div>

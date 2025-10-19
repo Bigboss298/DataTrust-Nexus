@@ -13,7 +13,7 @@ export interface DataRecord {
   fileSize: number;
   ipfsHash: string;
   encryptionAlgorithm: string;
-  uploadedAt: string;
+  uploadedAt: number; // Unix timestamp in seconds
   isActive: boolean;
   category: string;
   description?: string;
@@ -50,6 +50,7 @@ interface DataState {
   verifyData: (dto: VerifyDataDto, walletAddress: string) => Promise<void>;
   getDataRecord: (recordId: string) => Promise<void>;
   getInstitutionRecords: (walletAddress: string) => Promise<void>;
+  getAllRecords: () => Promise<void>;
   searchRecords: (searchTerm: string) => Promise<void>;
   deactivateRecord: (recordId: string, walletAddress: string) => Promise<void>;
   clearError: () => void;
@@ -124,10 +125,37 @@ export const useDataStore = create<DataState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.get(`${API_BASE_URL}/Data/owner/${walletAddress}`);
-      set({ records: response.data, isLoading: false });
+      // Map backend response to frontend format
+      const mappedRecords = response.data.map((record: any) => ({
+        ...record,
+        ownerWalletAddress: record.Owner || record.ownerWalletAddress,
+        ownerName: record.OwnerName || record.ownerName || 'Unknown Institution',
+        description: record.Description || record.description
+      }));
+      set({ records: mappedRecords, isLoading: false });
     } catch (error: any) {
       set({ 
         error: error.response?.data?.message || 'Failed to fetch records', 
+        isLoading: false 
+      });
+    }
+  },
+
+  getAllRecords: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_BASE_URL}/Data`);
+      // Map backend response to frontend format
+      const mappedRecords = response.data.map((record: any) => ({
+        ...record,
+        ownerWalletAddress: record.Owner || record.ownerWalletAddress,
+        ownerName: record.OwnerName || record.ownerName || 'Unknown Institution',
+        description: record.Description || record.description
+      }));
+      set({ records: mappedRecords, isLoading: false });
+    } catch (error: any) {
+      set({ 
+        error: error.response?.data?.message || 'Failed to fetch all records', 
         isLoading: false 
       });
     }

@@ -166,9 +166,9 @@ export const UploadData = () => {
       setSuccess(true);
       setTxHash(receipt.hash);
       
-      // Redirect to Dashboard after 3 seconds to view uploaded file
+      // Redirect to My Data page after 3 seconds to view uploaded file
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/dashboard/my-data');
       }, 3000);
     } catch (err: any) {
       console.error('========================================');

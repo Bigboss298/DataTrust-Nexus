@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
 import { useWalletStore } from '../stores/wallet-store';
 import { useAccessStore } from '../stores/access-store';
+import { useAccessRequestStore } from '../stores/access-request-store';
 import { useDataStore } from '../stores/data-store';
-import { Lock, Unlock, UserPlus, CheckCircle, AlertCircle, Calendar } from 'lucide-react';
+import { Lock, Unlock, UserPlus, CheckCircle, AlertCircle, Calendar, Mail } from 'lucide-react';
 
 export const AccessControl = () => {
   const { address, isConnected } = useWalletStore();
   const { grantedPermissions, receivedPermissions, grantAccess, revokeAccess, getGrantedPermissions, getReceivedPermissions, isLoading } = useAccessStore();
+  const { submitAccessRequest, getPendingRequests, getMyRequests } = useAccessRequestStore();
   const { records, getInstitutionRecords } = useDataStore();
   
-  const [activeTab, setActiveTab] = useState<'granted' | 'received'>('granted');
+  const [activeTab, setActiveTab] = useState<'granted' | 'received' | 'pending'>('granted');
   const [showGrantModal, setShowGrantModal] = useState(false);
+  const [showRequestModal, setShowRequestModal] = useState(false);
   const [grantForm, setGrantForm] = useState({
     recordId: '',
     granteeWalletAddress: '',
     permissionType: 'read',
     expiresAt: '',
     grantReason: '',
+  });
+  const [requestForm, setRequestForm] = useState({
+    recordId: '',
+    permissionType: 'read',
+    requestReason: '',
   });
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +34,8 @@ export const AccessControl = () => {
       getInstitutionRecords(address);
       getGrantedPermissions(address);
       getReceivedPermissions(address);
+      getPendingRequests(address);
+      getMyRequests(address);
     }
   }, [address]);
 
@@ -88,6 +98,36 @@ export const AccessControl = () => {
     }
   };
 
+  const handleRequestAccess = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!address) return;
+
+    try {
+      setError(null);
+      setSuccess(null);
+      
+      await submitAccessRequest(
+        {
+          recordId: requestForm.recordId,
+          permissionType: requestForm.permissionType,
+          requestReason: requestForm.requestReason,
+        },
+        address
+      );
+      
+      setSuccess('Access request submitted successfully!');
+      setShowRequestModal(false);
+      setRequestForm({
+        recordId: '',
+        permissionType: 'read',
+        requestReason: '',
+      });
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit access request');
+    }
+  };
+
   if (!isConnected) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
@@ -110,13 +150,22 @@ export const AccessControl = () => {
           </p>
         </div>
         
-        <button
-          onClick={() => setShowGrantModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition"
-        >
-          <UserPlus size={18} />
-          <span>Grant Access</span>
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowRequestModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
+          >
+            <Mail size={18} />
+            <span>Request Access</span>
+          </button>
+          <button
+            onClick={() => setShowGrantModal(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition"
+          >
+            <UserPlus size={18} />
+            <span>Grant Access</span>
+          </button>
+        </div>
       </div>
 
       {success && (
@@ -347,6 +396,77 @@ export const AccessControl = () => {
                   className="flex-1 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition disabled:opacity-50"
                 >
                   {isLoading ? 'Granting...' : 'Grant Access'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Request Access Modal */}
+      {showRequestModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-slate-800 rounded-lg p-6 max-w-md w-full mx-4">
+            <h2 className="text-xl font-bold text-white mb-4">Request Access</h2>
+            
+            <form onSubmit={handleRequestAccess} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Record ID
+                </label>
+                <input
+                  type="text"
+                  value={requestForm.recordId}
+                  onChange={(e) => setRequestForm({ ...requestForm, recordId: e.target.value })}
+                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  placeholder="Enter record ID"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Permission Type
+                </label>
+                <select
+                  value={requestForm.permissionType}
+                  onChange={(e) => setRequestForm({ ...requestForm, permissionType: e.target.value })}
+                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                >
+                  <option value="read">Read</option>
+                  <option value="verify">Verify</option>
+                  <option value="full">Full Access</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Reason
+                </label>
+                <textarea
+                  value={requestForm.requestReason}
+                  onChange={(e) => setRequestForm({ ...requestForm, requestReason: e.target.value })}
+                  className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  rows={3}
+                  placeholder="Explain why you need access to this data"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowRequestModal(false)}
+                  className="flex-1 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition disabled:opacity-50"
+                >
+                  {isLoading ? 'Submitting...' : 'Submit Request'}
                 </button>
               </div>
             </form>

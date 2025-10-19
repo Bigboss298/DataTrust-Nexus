@@ -16,6 +16,7 @@ public class DataService : IDataService
     private readonly ILogger<DataService> _logger;
     private readonly string _rpcUrl;
     private readonly string _contractAddress;
+    private readonly string _institutionRegistryAddress;
 
     public DataService(IConfiguration configuration, ILogger<DataService> logger)
     {
@@ -24,6 +25,27 @@ public class DataService : IDataService
         _rpcUrl = configuration["Blockchain:RpcUrl"] ?? throw new Exception("RPC URL not configured");
         _contractAddress = configuration["Blockchain:Contracts:DataVaultContract"] 
             ?? throw new Exception("DataVaultContract address not configured");
+        _institutionRegistryAddress = configuration["Blockchain:Contracts:InstitutionRegistry"] 
+            ?? throw new Exception("InstitutionRegistry address not configured");
+    }
+
+    private async Task<string> GetInstitutionNameAsync(string walletAddress)
+    {
+        try
+        {
+            var web3 = new Web3(_rpcUrl);
+            var abi = ContractAbiLoader.LoadAbi("InstitutionRegistry");
+            var contract = web3.Eth.GetContract(abi, _institutionRegistryAddress);
+            var function = contract.GetFunction("getInstitution");
+
+            var result = await function.CallAsync<InstitutionInfo>(walletAddress);
+            return result.Name ?? "Unknown Institution";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to fetch institution name for {Address}", walletAddress);
+            return "Unknown Institution";
+        }
     }
 
     public async Task<string> UploadDataAsync(string recordId, string dataHash, string fileName, string fileType, long fileSize, string ipfsHash, string encryptionAlgorithm, string category, string metadataUri, string privateKey)
@@ -115,13 +137,30 @@ public class DataService : IDataService
             var contract = web3.Eth.GetContract(abi, _contractAddress);
             var function = contract.GetFunction("getDataRecord");
 
-            var result = await function.CallDeserializingToObjectAsync<DataRecordContractData>(recordId);
+            // Call the function and get the raw result
+            var result = await function.CallAsync<DataRecordContractData>(recordId);
+
+            // Safely convert BigInteger to long for timestamp
+            long uploadedAtLong;
+            if (result.UploadedAt > long.MaxValue)
+            {
+                _logger.LogWarning("Timestamp value {Value} exceeds long.MaxValue, using max value", result.UploadedAt);
+                uploadedAtLong = long.MaxValue;
+            }
+            else
+            {
+                uploadedAtLong = (long)result.UploadedAt;
+            }
+
+            // Fetch institution name from InstitutionRegistry
+            var ownerName = await GetInstitutionNameAsync(result.Owner);
 
             return new DataRecordInfo
             {
-                RecordId = recordId,
+                RecordId = result.RecordId,
                 DataHash = System.Text.Encoding.UTF8.GetString(result.DataHash).TrimEnd('\0'),
                 Owner = result.Owner,
+                OwnerName = ownerName,
                 FileName = result.FileName,
                 FileType = result.FileType,
                 FileSize = (long)result.FileSize,
@@ -129,8 +168,8 @@ public class DataService : IDataService
                 EncryptionAlgorithm = result.EncryptionAlgorithm,
                 Category = result.Category,
                 MetadataUri = result.MetadataUri,
-                UploadedAt = (long)result.UploadedAt,
-                UploadedAtFormatted = DateTimeOffset.FromUnixTimeSeconds((long)result.UploadedAt).ToString("yyyy-MM-dd HH:mm:ss UTC"),
+                UploadedAt = uploadedAtLong,
+                UploadedAtFormatted = DateTimeOffset.FromUnixTimeSeconds(uploadedAtLong).ToString("yyyy-MM-dd HH:mm:ss UTC"),
                 IsActive = result.IsActive
             };
         }
@@ -190,11 +229,11 @@ public class DataService : IDataService
             var contract = web3.Eth.GetContract(abi, _contractAddress);
             var function = contract.GetFunction("getRecordsByOwner");
 
-            // Use CallDeserializingToObjectAsync for dynamic arrays
-            var result = await function.CallDeserializingToObjectAsync<GetRecordsByOwnerResult>(ownerAddress);
+            // Use CallAsync<List<string>> for dynamic arrays - this is the proper way to handle arrays in Nethereum
+            var result = await function.CallAsync<List<string>>(ownerAddress);
             
-            _logger.LogInformation("✅ Found {Count} record IDs for owner", result.RecordIds?.Length ?? 0);
-            return result.RecordIds ?? Array.Empty<string>();
+            _logger.LogInformation("✅ Found {Count} record IDs for owner", result?.Count ?? 0);
+            return result?.ToArray() ?? Array.Empty<string>();
         }
         catch (Exception ex)
         {
@@ -258,38 +297,42 @@ public class DataService : IDataService
 [Nethereum.ABI.FunctionEncoding.Attributes.FunctionOutput]
 public class DataRecordContractData
 {
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("bytes32", "dataHash", 1, false)]
+    // Order must match the smart contract's getDataRecord return values exactly
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "recordId", 1, false)]
+    public string RecordId { get; set; } = string.Empty;
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("bytes32", "dataHash", 2, false)]
     public byte[] DataHash { get; set; } = Array.Empty<byte>();
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("address", "owner", 2, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("address", "owner", 3, false)]
     public string Owner { get; set; } = string.Empty;
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "fileName", 3, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "fileName", 4, false)]
     public string FileName { get; set; } = string.Empty;
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "fileType", 4, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "fileType", 5, false)]
     public string FileType { get; set; } = string.Empty;
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("uint256", "fileSize", 5, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("uint256", "fileSize", 6, false)]
     public BigInteger FileSize { get; set; }
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "ipfsHash", 6, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "ipfsHash", 7, false)]
     public string IpfsHash { get; set; } = string.Empty;
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "encryptionAlgorithm", 7, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "encryptionAlgorithm", 8, false)]
     public string EncryptionAlgorithm { get; set; } = string.Empty;
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "category", 8, false)]
-    public string Category { get; set; } = string.Empty;
-    
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "metadataURI", 9, false)]
-    public string MetadataUri { get; set; } = string.Empty;
-    
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("uint256", "uploadedAt", 10, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("uint256", "uploadedAt", 9, false)]
     public BigInteger UploadedAt { get; set; }
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("bool", "isActive", 11, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("bool", "isActive", 10, false)]
     public bool IsActive { get; set; }
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "metadataURI", 11, false)]
+    public string MetadataUri { get; set; } = string.Empty;
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "category", 12, false)]
+    public string Category { get; set; } = string.Empty;
 }
 
 // Event DTO for DataUploaded
@@ -309,11 +352,28 @@ public class DataUploadedEvent
     public ulong Timestamp { get; set; }
 }
 
-// Function output for getRecordsByOwner
+// Institution Info for InstitutionRegistry
 [Nethereum.ABI.FunctionEncoding.Attributes.FunctionOutput]
-public class GetRecordsByOwnerResult
+public class InstitutionInfo
 {
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string[]", "recordIds", 1, false)]
-    public string[] RecordIds { get; set; } = Array.Empty<string>();
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "name", 1, false)]
+    public string Name { get; set; } = string.Empty;
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "institutionType", 2, false)]
+    public string InstitutionType { get; set; } = string.Empty;
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "registrationNumber", 3, false)]
+    public string RegistrationNumber { get; set; } = string.Empty;
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("address", "walletAddress", 4, false)]
+    public string WalletAddress { get; set; } = string.Empty;
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "metadataURI", 5, false)]
+    public string MetadataUri { get; set; } = string.Empty;
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("uint256", "registeredAt", 6, false)]
+    public BigInteger RegisteredAt { get; set; }
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("bool", "isActive", 7, false)]
+    public bool IsActive { get; set; }
 }
-
