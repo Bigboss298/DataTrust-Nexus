@@ -9,7 +9,6 @@ import { UploadData } from './pages/UploadData';
 import { BulkUpload } from './pages/BulkUpload';
 import { AccessControl } from './pages/AccessControl';
 import { AccessRequests } from './pages/AccessRequests';
-import { VerifyData } from './pages/VerifyData';
 import { AuditLogs } from './pages/AuditLogs';
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
           <Route path="bulk-upload" element={<BulkUpload />} />
           <Route path="access-control" element={<AccessControl />} />
           <Route path="access-requests" element={<AccessRequests />} />
-          <Route path="verify" element={<VerifyData />} />
           <Route path="audit-logs" element={<AuditLogs />} />
         </Route>
       </Routes>

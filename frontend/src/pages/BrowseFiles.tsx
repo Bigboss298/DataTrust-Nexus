@@ -8,12 +8,14 @@ import {
   FileText,
   Mail,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Shield,
+  XCircle
 } from 'lucide-react';
 
 export const BrowseFiles = () => {
   const { address, isConnected } = useWalletStore();
-  const { records, getAllRecords, isLoading } = useDataStore();
+  const { records, getAllRecords, isLoading, verifyData } = useDataStore();
   const { submitAccessRequest } = useAccessRequestStore();
   
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,10 +31,48 @@ export const BrowseFiles = () => {
   });
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [verificationStatus, setVerificationStatus] = useState<Record<string, 'verified' | 'failed' | 'verifying' | 'pending'>>({});
 
   useEffect(() => {
     getAllRecords();
   }, []);
+
+  // Auto-verify records when they're loaded
+  useEffect(() => {
+    const autoVerifyRecords = async () => {
+      for (const record of records) {
+        // Skip if already verified or currently verifying
+        if (verificationStatus[record.recordId] === 'verified' || 
+            verificationStatus[record.recordId] === 'verifying') {
+          continue;
+        }
+
+        // Mark as verifying
+        setVerificationStatus(prev => ({ ...prev, [record.recordId]: 'verifying' }));
+
+        try {
+          // Verify using the data hash from the record
+          await verifyData(
+            {
+              recordId: record.recordId,
+              providedHash: record.dataHash,
+            },
+            address!
+          );
+          
+          // Mark as verified
+          setVerificationStatus(prev => ({ ...prev, [record.recordId]: 'verified' }));
+        } catch (error) {
+          console.error(`Failed to verify record ${record.recordId}:`, error);
+          setVerificationStatus(prev => ({ ...prev, [record.recordId]: 'failed' }));
+        }
+      }
+    };
+
+    if (records.length > 0 && address) {
+      autoVerifyRecords();
+    }
+  }, [records, address, verifyData]);
 
   // Get unique categories and institutions from records
   const categories = Array.from(new Set(records.map(r => r.category)));
@@ -226,6 +266,7 @@ export const BrowseFiles = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Category</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Size</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Uploaded</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Verification</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Owner</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -259,6 +300,29 @@ export const BrowseFiles = () => {
                         month: 'short',
                         day: 'numeric'
                       })}
+                    </td>
+                    <td className="px-6 py-4">
+                      {verificationStatus[record.recordId] === 'verified' ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-medium">
+                          <CheckCircle size={12} />
+                          Verified
+                        </span>
+                      ) : verificationStatus[record.recordId] === 'failed' ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs font-medium">
+                          <XCircle size={12} />
+                          Failed
+                        </span>
+                      ) : verificationStatus[record.recordId] === 'verifying' ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs font-medium">
+                          <Shield size={12} className="animate-pulse" />
+                          Verifying...
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-500/20 text-gray-400 rounded text-xs font-medium">
+                          <Shield size={12} />
+                          Pending
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-400">
                       <p className="text-white font-medium">{record.ownerName || 'Unknown'}</p>
