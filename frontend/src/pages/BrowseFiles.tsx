@@ -5,9 +5,7 @@ import { useAccessRequestStore } from '../stores/access-request-store';
 import { 
   Database, 
   Search, 
-  Filter, 
   FileText,
-  Eye,
   Mail,
   AlertCircle,
   CheckCircle
@@ -16,7 +14,7 @@ import {
 export const BrowseFiles = () => {
   const { address, isConnected } = useWalletStore();
   const { records, getAllRecords, isLoading } = useDataStore();
-  const { submitAccessRequest, hasPendingRequest } = useAccessRequestStore();
+  const { submitAccessRequest } = useAccessRequestStore();
   
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
