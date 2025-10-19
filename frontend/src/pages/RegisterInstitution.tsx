@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useWalletStore } from '../stores/wallet-store';
 import { Building2, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218';
+import API_CONFIG from '../config/api';
 
 export const RegisterInstitution = () => {
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ export const RegisterInstitution = () => {
 
       // For demo purposes, we'll use a placeholder private key
       // In production, you should use a more secure method
-      const response = await fetch(`${API_BASE_URL}/api/institution/register`, {
+      const response = await fetch(API_CONFIG.ENDPOINTS.INSTITUTION_REGISTER, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

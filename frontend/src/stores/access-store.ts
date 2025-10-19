@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218/api';
+import API_CONFIG from '../config/api';
 
 export interface AccessPermission {
   id: string;
@@ -57,7 +57,7 @@ export const useAccessStore = create<AccessState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/Access/grant`,
+        API_CONFIG.ENDPOINTS.ACCESS_GRANT,
         dto,
         { headers: { 'X-Wallet-Address': walletAddress } }
       );
@@ -80,7 +80,7 @@ export const useAccessStore = create<AccessState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/Access/revoke`,
+        API_CONFIG.ENDPOINTS.ACCESS_REVOKE,
         dto,
         { headers: { 'X-Wallet-Address': walletAddress } }
       );
@@ -101,7 +101,7 @@ export const useAccessStore = create<AccessState>((set) => ({
 
   checkAccess: async (recordId: string, walletAddress: string) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/Access/check`, {
+      const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_CHECK, {
         params: { recordId, walletAddress }
       });
       return response.data.hasAccess;
@@ -113,7 +113,7 @@ export const useAccessStore = create<AccessState>((set) => ({
   getGrantedPermissions: async (walletAddress: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Access/granted/${walletAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_GRANTED(walletAddress));
       set({ grantedPermissions: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -126,7 +126,7 @@ export const useAccessStore = create<AccessState>((set) => ({
   getReceivedPermissions: async (walletAddress: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Access/received/${walletAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_RECEIVED(walletAddress));
       set({ receivedPermissions: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -138,7 +138,7 @@ export const useAccessStore = create<AccessState>((set) => ({
 
   getRecordPermissions: async (recordId: string) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/Access/record/${recordId}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_BY_RECORD(recordId));
       return response.data;
     } catch (error: any) {
       console.error('Failed to fetch record permissions:', error);

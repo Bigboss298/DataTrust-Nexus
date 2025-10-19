@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218/api';
+import API_CONFIG from '../config/api';
 
 export interface AccessRequest {
   id: string;
@@ -56,7 +56,7 @@ export const useAccessRequestStore = create<AccessRequestState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/Access/request`,
+        API_CONFIG.ENDPOINTS.ACCESS_REQUEST_SUBMIT,
         dto,
         { headers: { 'X-Wallet-Address': walletAddress } }
       );
@@ -78,7 +78,7 @@ export const useAccessRequestStore = create<AccessRequestState>((set) => ({
   getPendingRequests: async (walletAddress: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Access/requests/pending/${walletAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_REQUEST_PENDING(walletAddress));
       set({ pendingRequests: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -91,7 +91,7 @@ export const useAccessRequestStore = create<AccessRequestState>((set) => ({
   getMyRequests: async (walletAddress: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Access/requests/my/${walletAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_REQUEST_MY(walletAddress));
       set({ myRequests: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -105,7 +105,7 @@ export const useAccessRequestStore = create<AccessRequestState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/Access/request/respond`,
+        API_CONFIG.ENDPOINTS.ACCESS_REQUEST_RESPOND,
         {
           requestId: dto.requestId,
           action: dto.action,
@@ -130,7 +130,7 @@ export const useAccessRequestStore = create<AccessRequestState>((set) => ({
 
   hasPendingRequest: async (recordId: string, walletAddress: string) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/Access/request/check`, {
+      const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_REQUEST_CHECK, {
         params: { recordId, requesterWalletAddress: walletAddress }
       });
       return response.data.hasPending;

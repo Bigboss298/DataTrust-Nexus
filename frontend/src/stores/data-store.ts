@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218/api';
+import API_CONFIG from '../config/api';
 
 export interface DataRecord {
   recordId: string;
@@ -67,7 +66,7 @@ export const useDataStore = create<DataState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/Data/upload`,
+        API_CONFIG.ENDPOINTS.DATA_UPLOAD,
         dto,
         { headers: { 'X-Wallet-Address': walletAddress } }
       );
@@ -90,7 +89,7 @@ export const useDataStore = create<DataState>((set) => ({
     set({ isLoading: true, error: null, verificationResult: null });
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/Data/verify`,
+        API_CONFIG.ENDPOINTS.DATA_VERIFY,
         dto,
         { headers: { 'X-Wallet-Address': walletAddress } }
       );
@@ -111,7 +110,7 @@ export const useDataStore = create<DataState>((set) => ({
   getDataRecord: async (recordId: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Data/${recordId}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.DATA_GET(recordId));
       set({ currentRecord: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -124,7 +123,7 @@ export const useDataStore = create<DataState>((set) => ({
   getInstitutionRecords: async (walletAddress: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Data/owner/${walletAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.DATA_GET_BY_OWNER(walletAddress));
       // Map backend response to frontend format
       const mappedRecords = response.data.map((record: any) => ({
         ...record,
@@ -144,7 +143,7 @@ export const useDataStore = create<DataState>((set) => ({
   getAllRecords: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Data`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.DATA_GET_ALL);
       // Map backend response to frontend format
       const mappedRecords = response.data.map((record: any) => ({
         ...record,
@@ -164,7 +163,7 @@ export const useDataStore = create<DataState>((set) => ({
   searchRecords: async (searchTerm: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Data/search`, {
+      const response = await axios.get(API_CONFIG.ENDPOINTS.DATA_SEARCH, {
         params: { searchTerm }
       });
       set({ records: response.data, isLoading: false });
@@ -180,7 +179,7 @@ export const useDataStore = create<DataState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       await axios.post(
-        `${API_BASE_URL}/Data/${recordId}/deactivate`,
+        API_CONFIG.ENDPOINTS.DATA_DEACTIVATE(recordId),
         {},
         { headers: { 'X-Wallet-Address': walletAddress } }
       );

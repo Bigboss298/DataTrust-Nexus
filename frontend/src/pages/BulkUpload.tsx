@@ -4,7 +4,7 @@ import { useWalletStore } from '../stores/wallet-store';
 import { Upload, FileText, CheckCircle, AlertCircle, X } from 'lucide-react';
 import { ethers } from 'ethers';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218';
+import API_CONFIG from '../config/api';
 
 interface UploadFile {
   id: string;
@@ -69,7 +69,7 @@ export const BulkUpload = () => {
         formData.append('category', fileItem.category);
         formData.append('description', fileItem.description);
         
-        const uploadResponse = await fetch(`${API_BASE_URL}/api/Data/upload-file`, {
+        const uploadResponse = await fetch(API_CONFIG.ENDPOINTS.DATA_UPLOAD_FILE, {
           method: 'POST',
           body: formData,
         });

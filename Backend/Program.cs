@@ -96,25 +96,9 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "DataTrust Nexus API v1");
     c.RoutePrefix = "swagger"; // Serve Swagger UI at /swagger
     
-    // Optional: Add basic authentication for production Swagger UI
-    // Uncomment these lines if you want to protect Swagger in production
-    // c.EnablePersistAuthorization();
-    // c.DisplayRequestDuration();
 });
 
-// Use appropriate CORS policy based on environment
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("AllowAll");
-}
-else
-{
-    app.UseCors("Production");
-    app.UseHsts();
-}
-
-// Comment out HTTPS redirection for local development
-// app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
 app.UseRouting();
 

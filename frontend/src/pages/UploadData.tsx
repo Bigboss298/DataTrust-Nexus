@@ -4,7 +4,7 @@ import { useWalletStore } from '../stores/wallet-store';
 import { Upload, FileText, CheckCircle, AlertCircle, Database, Shield } from 'lucide-react';
 import { ethers } from 'ethers';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218';
+import API_CONFIG from '../config/api';
 
 export const UploadData = () => {
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ export const UploadData = () => {
       formDataToSend.append('category', formData.category);
       formDataToSend.append('description', formData.description);
       
-      const uploadResponse = await fetch(`${API_BASE_URL}/api/Data/upload-file`, {
+      const uploadResponse = await fetch(API_CONFIG.ENDPOINTS.DATA_UPLOAD_FILE, {
         method: 'POST',
         body: formDataToSend,
       });

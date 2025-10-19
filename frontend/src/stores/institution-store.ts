@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import axios from 'axios';
 import { ethers } from 'ethers';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218/api';
+import API_CONFIG from '../config/api';
 
 export interface Institution {
   name: string;
@@ -51,7 +51,7 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
   registerInstitution: async (dto: RegisterInstitutionDto) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_BASE_URL}/Institution/register`, dto);
+      const response = await axios.post(API_CONFIG.ENDPOINTS.INSTITUTION_REGISTER, dto);
       if (response.data.success) {
         set({ currentInstitution: response.data.institution, isLoading: false });
       } else {
@@ -68,17 +68,17 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
 
   getInstitutionByWallet: async (walletAddress: string) => {
     console.log('🚀 getInstitutionByWallet called with wallet:', walletAddress);
-    console.log('🚀 API_BASE_URL:', API_BASE_URL);
+    console.log('🚀 API_BASE_URL:', API_CONFIG.BASE_URL);
     set({ isLoading: true, error: null });
     try {
       // Convert to checksummed address (mixed case)
       const checksummedAddress = ethers.getAddress(walletAddress);
       console.log('🔍 Fetching institution for wallet:', walletAddress);
       console.log('🔍 Checksummed address:', checksummedAddress);
-      console.log('🔗 API URL:', `${API_BASE_URL}/Institution/${checksummedAddress}`);
+      console.log('🔗 API URL:', API_CONFIG.ENDPOINTS.INSTITUTION_GET(checksummedAddress));
       console.log('⏳ Making axios request now...');
       
-      const response = await axios.get(`${API_BASE_URL}/Institution/${checksummedAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.INSTITUTION_GET(checksummedAddress));
       console.log('✅ Institution response:', response.data);
       
       if (response.data && response.data.name) {
@@ -114,7 +114,7 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
   getAllInstitutions: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Institution`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.INSTITUTION_GET_ALL);
       set({ institutions: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -126,7 +126,7 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
 
   verifyInstitution: async (walletAddress: string) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/Institution/verify/${walletAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.INSTITUTION_VERIFY(walletAddress));
       return response.data.isVerified;
     } catch (error) {
       return false;
@@ -136,7 +136,7 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
   searchInstitutions: async (searchTerm: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Institution/search`, {
+      const response = await axios.get(API_CONFIG.ENDPOINTS.INSTITUTION_SEARCH, {
         params: { searchTerm }
       });
       set({ institutions: response.data, isLoading: false });

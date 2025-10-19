@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7218/api';
+import API_CONFIG from '../config/api';
 
 export interface AuditLog {
   id: string;
@@ -72,7 +72,7 @@ export const useAuditStore = create<AuditState>((set) => ({
   getRecentLogs: async (count = 50) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Audit/recent`, {
+      const response = await axios.get(API_CONFIG.ENDPOINTS.AUDIT_RECENT, {
         params: { count }
       });
       set({ recentLogs: response.data, isLoading: false });
@@ -87,7 +87,7 @@ export const useAuditStore = create<AuditState>((set) => ({
   getLogsByActor: async (walletAddress: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Audit/actor/${walletAddress}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.AUDIT_BY_ACTOR(walletAddress));
       set({ logs: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -100,7 +100,7 @@ export const useAuditStore = create<AuditState>((set) => ({
   getLogsByRecord: async (recordId: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.get(`${API_BASE_URL}/Audit/record/${recordId}`);
+      const response = await axios.get(API_CONFIG.ENDPOINTS.AUDIT_BY_RECORD(recordId));
       set({ logs: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -117,7 +117,7 @@ export const useAuditStore = create<AuditState>((set) => ({
       if (startDate) params.startDate = startDate;
       if (endDate) params.endDate = endDate;
       
-      const response = await axios.get(`${API_BASE_URL}/Audit/statistics`, { params });
+      const response = await axios.get(API_CONFIG.ENDPOINTS.AUDIT_STATISTICS, { params });
       set({ statistics: response.data, isLoading: false });
     } catch (error: any) {
       set({ 
@@ -130,7 +130,7 @@ export const useAuditStore = create<AuditState>((set) => ({
   queryLogs: async (query: any) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_BASE_URL}/Audit/query`, query);
+      const response = await axios.post(API_CONFIG.ENDPOINTS.AUDIT_QUERY, query);
       set({ 
         logs: response.data.logs,
         totalCount: response.data.totalCount,
