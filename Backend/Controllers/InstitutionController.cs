@@ -91,12 +91,23 @@ public class InstitutionController : ControllerBase
         {
             _logger.LogInformation("Registering institution {Name} on blockchain", request.Name);
             
+            // Verify signature
+            if (!await _institutionService.VerifySignatureAsync(
+                request.WalletAddress,
+                request.Signature,
+                request.Name,
+                request.InstitutionType,
+                request.RegistrationNumber))
+            {
+                return BadRequest(new { success = false, message = "Invalid signature" });
+            }
+            
             var txHash = await _institutionService.RegisterInstitutionAsync(
                 request.Name,
                 request.InstitutionType,
                 request.RegistrationNumber,
                 request.MetadataUri,
-                request.PrivateKey
+                request.WalletAddress
             );
 
             return Ok(new
@@ -173,7 +184,8 @@ public class RegisterInstitutionRequest
     public string InstitutionType { get; set; } = string.Empty;
     public string RegistrationNumber { get; set; } = string.Empty;
     public string MetadataUri { get; set; } = string.Empty;
-    public string PrivateKey { get; set; } = string.Empty;
+    public string WalletAddress { get; set; } = string.Empty;
+    public string Signature { get; set; } = string.Empty;
 }
 
 public class UpdateInstitutionRequest

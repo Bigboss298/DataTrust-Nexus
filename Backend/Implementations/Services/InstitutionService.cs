@@ -27,13 +27,17 @@ public class InstitutionService : IInstitutionService
             ?? throw new Exception("InstitutionRegistry address not configured");
     }
 
-    public async Task<string> RegisterInstitutionAsync(string name, string institutionType, string registrationNumber, string metadataUri, string privateKey)
+    public async Task<string> RegisterInstitutionAsync(string name, string institutionType, string registrationNumber, string metadataUri, string walletAddress)
     {
         try
         {
-            _logger.LogInformation("🚀 Registering institution: {Name}", name);
+            _logger.LogInformation("🚀 Registering institution: {Name} for wallet {Wallet}", name, walletAddress);
             
-            var account = new Account(privateKey);
+            // Use server-side wallet for blockchain transactions
+            var serverPrivateKey = _configuration["Blockchain:ServerPrivateKey"] 
+                ?? throw new Exception("Server private key not configured");
+            
+            var account = new Account(serverPrivateKey);
             var web3 = new Web3(account, _rpcUrl);
             var abi = ContractAbiLoader.LoadAbi("InstitutionRegistry");
             var contract = web3.Eth.GetContract(abi, _contractAddress);
@@ -49,6 +53,31 @@ public class InstitutionService : IInstitutionService
         {
             _logger.LogError(ex, "❌ Failed to register institution");
             throw new Exception($"BlockDAG error: {ex.Message}", ex);
+        }
+    }
+
+    public async Task<bool> VerifySignatureAsync(string walletAddress, string signature, string name, string institutionType, string registrationNumber)
+    {
+        try
+        {
+            _logger.LogInformation("🔐 Verifying signature for wallet {Wallet}", walletAddress);
+            
+            // Create the message that should have been signed
+            var message = $"Register Institution: {name}|{institutionType}|{registrationNumber}|{walletAddress}";
+            
+            // Verify the signature using Nethereum
+            var web3 = new Web3(_rpcUrl);
+            var recoveredAddress = await web3.Eth.Accounts.AccountSigner.EcRecoverAsync(message, signature);
+            
+            var isValid = recoveredAddress.ToLower() == walletAddress.ToLower();
+            
+            _logger.LogInformation("🔐 Signature verification result: {IsValid}", isValid);
+            return isValid;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "❌ Failed to verify signature");
+            return false;
         }
     }
 

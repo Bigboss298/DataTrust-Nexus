@@ -48,22 +48,34 @@ export const RegisterInstitution = () => {
     setSuccess(null);
 
     try {
-      // Get private key from MetaMask
+      // Check if MetaMask is installed
       if (!window.ethereum) {
         throw new Error('MetaMask is not installed');
       }
 
-      // Request account signature for authentication
+      // Request account access
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
 
-      if (accounts.length === 0) {
-        throw new Error('No accounts found');
+      if (accounts.length === 0 || accounts[0].toLowerCase() !== address.toLowerCase()) {
+        throw new Error('Please connect with the correct wallet');
       }
 
-      // For demo purposes, we'll use a placeholder private key
-      // In production, you should use a more secure method
+      // Create the message to sign
+      const message = `Register Institution: ${formData.name}|${formData.institutionType}|${formData.registrationNumber}|${address}`;
+      
+      // Sign the message with MetaMask
+      const signature = await window.ethereum.request({
+        method: 'personal_sign',
+        params: [message, address],
+      });
+
+      if (!signature) {
+        throw new Error('Failed to sign message');
+      }
+
+      // Send registration request with signature
       const response = await fetch(API_CONFIG.ENDPOINTS.INSTITUTION_REGISTER, {
         method: 'POST',
         headers: {
@@ -74,7 +86,8 @@ export const RegisterInstitution = () => {
           institutionType: formData.institutionType,
           registrationNumber: formData.registrationNumber,
           metadataUri: formData.metadataUri || '',
-          privateKey: '', // This should be handled securely in production
+          walletAddress: address,
+          signature: signature,
         }),
       });
 

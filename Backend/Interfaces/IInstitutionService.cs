@@ -6,9 +6,10 @@ namespace DataTrustNexus.Api.Interfaces;
 public interface IInstitutionService
 {
     // WRITE OPERATIONS
-    Task<string> RegisterInstitutionAsync(string name, string institutionType, string registrationNumber, string metadataUri, string privateKey);
+    Task<string> RegisterInstitutionAsync(string name, string institutionType, string registrationNumber, string metadataUri, string walletAddress);
     Task<string> UpdateInstitutionAsync(string walletAddress, string name, string metadataUri, string privateKey);
     Task<string> DeactivateInstitutionAsync(string walletAddress, string privateKey);
+    Task<bool> VerifySignatureAsync(string walletAddress, string signature, string name, string institutionType, string registrationNumber);
     
     // READ OPERATIONS
     Task<InstitutionData?> GetInstitutionAsync(string walletAddress);
