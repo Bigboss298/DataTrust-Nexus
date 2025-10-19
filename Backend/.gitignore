@@ -1,0 +1,39 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Sensitive configuration files
+appsettings.json
+appsettings.*.json
+!appsettings.example.json
+
+# Azure
+*.azurePubxml
+*.publishproj
+
+# Visual Studio cache/options
+.vs/
+.vscode/
+
+# Rider
+.idea/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+
+# Azure Functions
+local.settings.json
+
