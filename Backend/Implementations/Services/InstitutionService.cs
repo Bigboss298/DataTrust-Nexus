@@ -65,9 +65,10 @@ public class InstitutionService : IInstitutionService
             // Create the message that should have been signed
             var message = $"Register Institution: {name}|{institutionType}|{registrationNumber}|{walletAddress}";
             
-            // Verify the signature using Nethereum
-            var web3 = new Web3(_rpcUrl);
-            var recoveredAddress = await web3.Eth.Accounts.AccountSigner.EcRecoverAsync(message, signature);
+            // Verify the signature using Nethereum MessageSigner
+            var signer = new Nethereum.Signer.MessageSigner();
+            var messageBytes = System.Text.Encoding.UTF8.GetBytes(message);
+            var recoveredAddress = signer.EcRecover(messageBytes, signature);
             
             var isValid = recoveredAddress.ToLower() == walletAddress.ToLower();
             
