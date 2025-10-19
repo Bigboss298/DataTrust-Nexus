@@ -368,12 +368,12 @@ public class InstitutionInfo
     [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("address", "walletAddress", 4, false)]
     public string WalletAddress { get; set; } = string.Empty;
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "metadataURI", 5, false)]
-    public string MetadataUri { get; set; } = string.Empty;
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("uint256", "registeredAt", 5, false)]
+    public ulong RegisteredAt { get; set; }
     
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("uint256", "registeredAt", 6, false)]
-    public BigInteger RegisteredAt { get; set; }
-    
-    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("bool", "isActive", 7, false)]
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("bool", "isActive", 6, false)]
     public bool IsActive { get; set; }
+    
+    [Nethereum.ABI.FunctionEncoding.Attributes.Parameter("string", "metadataURI", 7, false)]
+    public string MetadataUri { get; set; } = string.Empty;
 }

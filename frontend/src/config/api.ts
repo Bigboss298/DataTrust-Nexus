@@ -9,7 +9,8 @@
 // ============================================
 // CHANGE THIS URL TO SWITCH ENVIRONMENTS
 // ============================================
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://datatrust-nexus-gng7e8f0encbdtcr.westeurope-01.azurewebsites.net';
+// const BASE_URL ='https://datatrust-nexus-gng7e8f0encbdtcr.westeurope-01.azurewebsites.net';
+const BASE_URL ='https://localhost:7218';
 
 // ============================================
 // Alternative URLs (uncomment to use):
