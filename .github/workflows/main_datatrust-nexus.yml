@@ -7,6 +7,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Backend/**'  # Only trigger when Backend folder changes
   workflow_dispatch:
 
 jobs:
@@ -25,9 +27,11 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: ./Backend
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        working-directory: ./Backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -38,6 +42,8 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
+    permissions:
+      contents: none
     
     steps:
       - name: Download artifact from build job
@@ -53,3 +59,4 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B7CF5297290946ED8DDD2010A1DC66AA }}
+
