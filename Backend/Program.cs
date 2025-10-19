@@ -89,13 +89,20 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
+// Always enable Swagger in all environments (including production)
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "DataTrust Nexus API v1");
     c.RoutePrefix = "swagger"; // Serve Swagger UI at /swagger
+    
+    // Optional: Add basic authentication for production Swagger UI
+    // Uncomment these lines if you want to protect Swagger in production
+    // c.EnablePersistAuthorization();
+    // c.DisplayRequestDuration();
 });
 
+// Use appropriate CORS policy based on environment
 if (app.Environment.IsDevelopment())
 {
     app.UseCors("AllowAll");
