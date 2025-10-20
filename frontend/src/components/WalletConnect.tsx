@@ -36,24 +36,20 @@ export const WalletConnect = () => {
 
       const accounts = await window.ethereum.request({ method: 'eth_accounts' });
       if (accounts.length > 0) {
-        console.log('🔌 WalletConnect: Checking existing connection:', accounts[0]);
         setWalletAddress(accounts[0]);
         setConnected(true);
       }
     } catch (err) {
-      console.error('❌ Error checking wallet connection:', err);
+      // Error handled silently
     }
   };
 
   const handleAccountsChanged = (accounts: string[]) => {
-    console.log('🔌 WalletConnect: Accounts changed:', accounts);
     if (accounts.length === 0) {
-      console.log('🔌 WalletConnect: Wallet disconnected');
       disconnect();
       // Redirect to landing page when wallet is disconnected
       navigate('/');
     } else {
-      console.log('🔌 WalletConnect: Wallet connected:', accounts[0]);
       setWalletAddress(accounts[0]);
       setConnected(true);
     }
@@ -75,7 +71,6 @@ export const WalletConnect = () => {
       });
 
       if (accounts.length > 0) {
-        console.log('🔌 WalletConnect: Wallet connected successfully:', accounts[0]);
         setWalletAddress(accounts[0]);
         setConnected(true);
       }

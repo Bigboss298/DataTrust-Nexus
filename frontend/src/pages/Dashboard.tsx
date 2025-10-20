@@ -20,14 +20,9 @@ export const Dashboard = () => {
   useEffect(() => {
     const checkInstitution = async () => {
     if (address) {
-        console.log('📊 Dashboard: Checking institution for wallet:', address);
-        console.log('📊 Dashboard: Wallet address length:', address.length);
-        console.log('📊 Dashboard: Wallet address type:', typeof address);
         // Check if institution exists for this wallet
         await getInstitutionByWallet(address);
         setIsChecking(false);
-      } else {
-        console.log('📊 Dashboard: No wallet address available');
       }
     };
     
@@ -37,19 +32,13 @@ export const Dashboard = () => {
   // Separate effect to handle redirect and data loading
   useEffect(() => {
     if (!isChecking && address) {
-      console.log('📊 Dashboard: Current institution state:', currentInstitution);
-      console.log('📊 Dashboard: Institution name:', currentInstitution?.name);
-      console.log('📊 Dashboard: Institution wallet:', currentInstitution?.walletAddress);
-      
       if (!currentInstitution || !currentInstitution.name) {
         // Institution not found, redirect to registration
-        console.log('📊 Dashboard: ❌ No institution found, redirecting to registration in 1 second...');
         setTimeout(() => {
           navigate('/register');
         }, 1000);
       } else {
         // Institution exists, load dashboard data
-        console.log('📊 Dashboard: ✅ Institution found:', currentInstitution.name);
       getInstitutionRecords(address);
       getStatistics();
       getRecentLogs(10);

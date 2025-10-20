@@ -52,12 +52,10 @@ export const Landing = () => {
       });
 
       if (accounts.length > 0) {
-        console.log('🔌 Landing: Wallet connected:', accounts[0]);
         setWalletAddress(accounts[0]);
         setConnected(true);
         
         // Check if wallet already has an institution
-        console.log('🔍 Landing: Checking if wallet has an institution...');
         await getInstitutionByWallet(accounts[0]);
         
         // Wait a moment for the institution check to complete

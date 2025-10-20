@@ -9,8 +9,8 @@
 // ============================================
 // CHANGE THIS URL TO SWITCH ENVIRONMENTS
 // ============================================
-const BASE_URL ='https://datatrust-nexus-gng7e8f0encbdtcr.westeurope-01.azurewebsites.net';
-// const BASE_URL ='https://localhost:7218';
+// const BASE_URL ='https://datatrust-nexus-gng7e8f0encbdtcr.westeurope-01.azurewebsites.net';
+const BASE_URL ='https://localhost:7218';
 
 // ============================================
 // Alternative URLs (uncomment to use):
@@ -62,11 +62,6 @@ export const API_CONFIG = {
     AUDIT_QUERY: `${BASE_URL}/api/Audit/query`,
   }
 };
-
-// Log the current API configuration (only in development)
-if (import.meta.env.DEV) {
-  console.log('🔧 API Configuration:', API_CONFIG.BASE_URL);
-}
 
 export default API_CONFIG;
 

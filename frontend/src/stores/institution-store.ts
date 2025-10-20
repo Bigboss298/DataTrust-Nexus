@@ -67,41 +67,22 @@ export const useInstitutionStore = create<InstitutionState>((set) => ({
   },
 
   getInstitutionByWallet: async (walletAddress: string) => {
-    console.log('🚀 getInstitutionByWallet called with wallet:', walletAddress);
-    console.log('🚀 API_BASE_URL:', API_CONFIG.BASE_URL);
     set({ isLoading: true, error: null });
     try {
       // Convert to checksummed address (mixed case)
       const checksummedAddress = ethers.getAddress(walletAddress);
-      console.log('🔍 Fetching institution for wallet:', walletAddress);
-      console.log('🔍 Checksummed address:', checksummedAddress);
-      console.log('🔗 API URL:', API_CONFIG.ENDPOINTS.INSTITUTION_GET(checksummedAddress));
-      console.log('⏳ Making axios request now...');
       
       const response = await axios.get(API_CONFIG.ENDPOINTS.INSTITUTION_GET(checksummedAddress));
-      console.log('✅ Institution response:', response.data);
       
       if (response.data && response.data.name) {
-        console.log('✅ Institution found:', response.data.name);
         set({ currentInstitution: response.data, isLoading: false });
       } else {
-        console.log('❌ No institution found - response data:', response.data);
         set({ currentInstitution: null, isLoading: false });
       }
     } catch (error: any) {
-      console.error('❌ Error fetching institution:', {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        message: error.message,
-        url: error.config?.url
-      });
-      
       if (error.response?.status === 404) {
-        console.log('❌ Institution not found (404)');
         set({ currentInstitution: null, isLoading: false });
       } else {
-        console.error('❌ Failed to fetch institution:', error);
         set({ 
           error: error.response?.data?.message || 'Failed to fetch institution', 
           isLoading: false,

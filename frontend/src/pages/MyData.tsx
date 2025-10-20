@@ -63,7 +63,6 @@ export const MyData = () => {
           // Mark as verified
           setVerificationStatus(prev => ({ ...prev, [record.recordId]: 'verified' }));
         } catch (error) {
-          console.error(`Failed to verify record ${record.recordId}:`, error);
           setVerificationStatus(prev => ({ ...prev, [record.recordId]: 'failed' }));
         }
       }
@@ -116,7 +115,7 @@ export const MyData = () => {
         await deactivateRecord(recordId, address!);
         await getInstitutionRecords(address!);
       } catch (error) {
-        console.error('Failed to deactivate record:', error);
+        // Error handled by store
       }
     }
   };

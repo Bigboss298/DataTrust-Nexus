@@ -141,7 +141,6 @@ export const useAccessStore = create<AccessState>((set) => ({
       const response = await axios.get(API_CONFIG.ENDPOINTS.ACCESS_BY_RECORD(recordId));
       return response.data;
     } catch (error: any) {
-      console.error('Failed to fetch record permissions:', error);
       return [];
     }
   },

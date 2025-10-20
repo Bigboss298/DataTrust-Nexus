@@ -50,13 +50,18 @@ export const RegisterInstitution = () => {
     try {
       // Check if MetaMask is installed
       if (!window.ethereum) {
-        throw new Error('MetaMask is not installed');
+        throw new Error('MetaMask is not installed. Please install MetaMask to continue.');
       }
 
-      // Request account access
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
+      // Request account access with timeout
+      const accounts = await Promise.race([
+        window.ethereum.request({
+          method: 'eth_requestAccounts',
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('MetaMask request timeout. Please try again.')), 10000)
+        )
+      ]) as string[];
 
       if (accounts.length === 0 || accounts[0].toLowerCase() !== address.toLowerCase()) {
         throw new Error('Please connect with the correct wallet');
@@ -65,11 +70,16 @@ export const RegisterInstitution = () => {
       // Create the message to sign
       const message = `Register Institution: ${formData.name}|${formData.institutionType}|${formData.registrationNumber}|${address}`;
       
-      // Sign the message with MetaMask
-      const signature = await window.ethereum.request({
-        method: 'personal_sign',
-        params: [message, address],
-      });
+      // Sign the message with MetaMask with timeout
+      const signature = await Promise.race([
+        window.ethereum.request({
+          method: 'personal_sign',
+          params: [message, address],
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Signature request timeout. Please approve the signature in MetaMask.')), 60000)
+        )
+      ]) as string;
 
       if (!signature) {
         throw new Error('Failed to sign message');

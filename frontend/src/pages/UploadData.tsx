@@ -64,31 +64,17 @@ export const UploadData = () => {
       }
       
       const uploadResult = await uploadResponse.json();
-      console.log('✅ Backend upload complete:', uploadResult);
       setUploadProgress(50);
       
       // Step 2: Sign and send transaction to blockchain from frontend
-      console.log('========================================');
-      console.log('🚀 STARTING BLOCKCHAIN TRANSACTION');
-      console.log('========================================');
-      
       setUploadProgress(75);
-      console.log('📝 Step 1: Checking MetaMask...');
       
       if (!window.ethereum) {
-        console.error('❌ MetaMask not found!');
         throw new Error('MetaMask is not installed');
       }
-      console.log('✅ MetaMask detected');
       
-      console.log('📝 Step 2: Connecting to provider...');
       const provider = new ethers.BrowserProvider(window.ethereum);
-      console.log('✅ Provider created:', provider);
-      
-      console.log('📝 Step 3: Getting signer...');
       const signer = await provider.getSigner();
-      const signerAddress = await signer.getAddress();
-      console.log('✅ Signer address:', signerAddress);
       
       // DataVaultContract ABI (simplified for uploadData function)
       const dataVaultAbi = [
@@ -96,42 +82,16 @@ export const UploadData = () => {
       ];
       
       const dataVaultAddress = '0x8D9e9A1999C8D33E335bEA01A25E0A6698D32168';
-      console.log('📝 Step 4: Creating contract instance...');
-      console.log('   Contract Address:', dataVaultAddress);
-      console.log('   ABI:', dataVaultAbi);
       
       const contract = new ethers.Contract(dataVaultAddress, dataVaultAbi, signer);
-      console.log('✅ Contract instance created');
       
       // Convert dataHash from hex string to bytes32
-      console.log('📝 Step 5: Converting dataHash to bytes32...');
-      console.log('   Original hash:', uploadResult.dataHash);
-      
       // Add 0x prefix if not present (ethers requires it)
       const hashWithPrefix = uploadResult.dataHash.startsWith('0x') 
         ? uploadResult.dataHash 
         : `0x${uploadResult.dataHash}`;
-      console.log('   Hash with 0x prefix:', hashWithPrefix);
       
       const dataHashBytes32 = ethers.zeroPadValue(hashWithPrefix, 32);
-      console.log('   Bytes32 hash:', dataHashBytes32);
-      
-      // Call uploadData function
-      console.log('📝 Step 6: Preparing transaction parameters...');
-      const txParams = {
-        recordId: uploadResult.recordId,
-        dataHash: uploadResult.dataHash,
-        fileName: uploadResult.fileName,
-        fileType: uploadResult.fileType,
-        fileSize: uploadResult.fileSize,
-        blobUrl: uploadResult.blobUrl,
-        category: uploadResult.category,
-        description: uploadResult.description
-      };
-      console.log('📤 Transaction parameters:', txParams);
-      
-      console.log('📝 Step 7: Calling uploadData function...');
-      console.log('   ⚠️  MetaMask should pop up now to confirm transaction!');
       
       const tx = await contract.uploadData(
         uploadResult.recordId,
@@ -145,23 +105,8 @@ export const UploadData = () => {
         uploadResult.description
       );
       
-      console.log('✅ Transaction sent successfully!');
-      console.log('   Transaction Hash:', tx.hash);
-      console.log('   Waiting for confirmation...');
-      
       const receipt = await tx.wait();
       
-      console.log('========================================');
-      console.log('🎉 BLOCKCHAIN TRANSACTION CONFIRMED!');
-      console.log('========================================');
-      console.log('Transaction Details:', {
-        hash: receipt.hash,
-        blockNumber: receipt.blockNumber,
-        gasUsed: receipt.gasUsed.toString(),
-        from: receipt.from,
-        to: receipt.to
-      });
-      console.log('========================================');
       setUploadProgress(100);
       setSuccess(true);
       setTxHash(receipt.hash);
@@ -171,13 +116,6 @@ export const UploadData = () => {
         navigate('/dashboard/my-data');
       }, 3000);
     } catch (err: any) {
-      console.error('========================================');
-      console.error('❌ UPLOAD ERROR!');
-      console.error('========================================');
-      console.error('Error Message:', err.message);
-      console.error('Error Object:', err);
-      console.error('Error Stack:', err.stack);
-      console.error('========================================');
       setError(err.message || 'Failed to upload data');
       setUploadProgress(0);
     } finally {
