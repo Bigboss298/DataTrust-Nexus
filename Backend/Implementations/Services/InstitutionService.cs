@@ -65,14 +65,21 @@ public class InstitutionService : IInstitutionService
             // Create the message that should have been signed
             var message = $"Register Institution: {name}|{institutionType}|{registrationNumber}|{walletAddress}";
             
-            // Verify the signature using Nethereum MessageSigner
-            var signer = new Nethereum.Signer.MessageSigner();
-            var messageBytes = System.Text.Encoding.UTF8.GetBytes(message);
-            var recoveredAddress = signer.EcRecover(messageBytes, signature);
+            // Verify the signature using Nethereum EthereumMessageSigner
+            // HashMessageUTF8 adds the Ethereum message prefix automatically for personal_sign
+            var signer = new Nethereum.Signer.EthereumMessageSigner();
+            var recoveredAddress = signer.EncodeUTF8AndEcRecover(message, signature);
             
             var isValid = recoveredAddress.ToLower() == walletAddress.ToLower();
             
-            _logger.LogInformation("🔐 Signature verification result: {IsValid}", isValid);
+            _logger.LogInformation("🔐 Signature verification result: {IsValid} (Expected: {Expected}, Recovered: {Recovered})", 
+                isValid, walletAddress.ToLower(), recoveredAddress.ToLower());
+            
+            if (!isValid)
+            {
+                _logger.LogWarning("🔐 Signature mismatch - Message: {Message}", message);
+            }
+            
             return isValid;
         }
         catch (Exception ex)
