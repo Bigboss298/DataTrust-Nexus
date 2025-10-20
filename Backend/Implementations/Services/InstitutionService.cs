@@ -43,8 +43,9 @@ public class InstitutionService : IInstitutionService
             var contract = web3.Eth.GetContract(abi, _contractAddress);
             var function = contract.GetFunction("registerInstitution");
 
-            var gas = await function.EstimateGasAsync(account.Address, null, null, name, institutionType, registrationNumber, metadataUri);
-            var txHash = await function.SendTransactionAsync(account.Address, gas, null, name, institutionType, registrationNumber, metadataUri);
+            // Pass walletAddress as first parameter, then name, institutionType, registrationNumber, metadataUri
+            var gas = await function.EstimateGasAsync(account.Address, null, null, walletAddress, name, institutionType, registrationNumber, metadataUri);
+            var txHash = await function.SendTransactionAsync(account.Address, gas, null, walletAddress, name, institutionType, registrationNumber, metadataUri);
 
             _logger.LogInformation("✅ Institution registered! TxHash: {TxHash}", txHash);
             return txHash;

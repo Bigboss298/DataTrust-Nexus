@@ -1,23 +1,23 @@
 {
   "network": "blockdag_testnet",
   "deployer": "0xEB982d4692d70330D35361d247B67daE1f919E13",
-  "timestamp": "2025-10-18T01:52:41.681Z",
+  "timestamp": "2025-10-20T00:28:44.452Z",
   "contracts": {
     "InstitutionRegistry": {
-      "address": "0x5e845012B9c5347daB42DA4b5AC2669970b3B5cE",
-      "txHash": "0x41472829f8774b7e90a8295ce1657506bcf630cfb4903f4b02aeecbcd2e93a6e"
+      "address": "0xe614EEc012E5891238f199C6Cfc7FC1F98Dcd6b8",
+      "txHash": "0x6660dc3c96b53767187abfe535284f9433e0a3b23224d565f62f7507a8415ffd"
     },
     "DataVaultContract": {
-      "address": "0x8D9e9A1999C8D33E335bEA01A25E0A6698D32168",
-      "txHash": "0x69402ab5ed80031a17a75ee3da86cea071677ba15a13b4f07bc6f8275eac700b"
+      "address": "0xb3aa8f9F84745aa2923D163C69aE899d7E5Fd580",
+      "txHash": "0x62b545c046cc7fca2a25cf3c8b0c9e9797feeb7ed05138bd731c0f5f1ef140d9"
     },
     "AccessControlContract": {
-      "address": "0x6e951aC90F0ea195af2991938DCcBbD845c424D3",
-      "txHash": "0x63fb2cd9ded4db0e62a9adcb7dbbe08c944577727f1c24ca76e969297ae75944"
+      "address": "0x792E265c636D20950B865603cF117823eC19cC23",
+      "txHash": "0x512f3b95cd727fbf14c3481c5e091166b7b6f2b85d3a2698a812f4a8f58ee9b3"
     },
     "AuditTrailContract": {
-      "address": "0x4b7CFa26D4e5abA247240B117a8B25fBB7476261",
-      "txHash": "0x7b27b0d8f7b7cfca269092da03a499067b023e64785cef5fd93ef4d3c7176cc1"
+      "address": "0xCFe971767Ee7690B677E91E23c6ff16a70d03E13",
+      "txHash": "0x4247274c851b6d99e08c29df1f620d0694f63beec9f9404198e7c5a94652f9bd"
     }
   }
 }

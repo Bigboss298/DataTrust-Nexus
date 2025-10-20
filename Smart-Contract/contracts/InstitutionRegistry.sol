@@ -77,35 +77,38 @@ contract InstitutionRegistry {
     
     /**
      * @dev Register a new institution
+     * @param _walletAddress The wallet address to register
      * @param _name Institution name
      * @param _institutionType Type of institution
      * @param _registrationNumber Official registration number
      * @param _metadataURI IPFS URI for additional metadata
      */
     function registerInstitution(
+        address _walletAddress,
         string memory _name,
         string memory _institutionType,
         string memory _registrationNumber,
         string memory _metadataURI
-    ) external notRegistered(msg.sender) {
+    ) external notRegistered(_walletAddress) {
         require(bytes(_name).length > 0, "Name cannot be empty");
         require(bytes(_institutionType).length > 0, "Institution type cannot be empty");
+        require(_walletAddress != address(0), "Invalid wallet address");
         
         Institution memory newInstitution = Institution({
             name: _name,
             institutionType: _institutionType,
             registrationNumber: _registrationNumber,
-            walletAddress: msg.sender,
+            walletAddress: _walletAddress,
             registeredAt: block.timestamp,
             isActive: true,
             metadataURI: _metadataURI
         });
         
-        institutions[msg.sender] = newInstitution;
-        isRegistered[msg.sender] = true;
-        institutionAddresses.push(msg.sender);
+        institutions[_walletAddress] = newInstitution;
+        isRegistered[_walletAddress] = true;
+        institutionAddresses.push(_walletAddress);
         
-        emit InstitutionRegistered(msg.sender, _name, _institutionType, block.timestamp);
+        emit InstitutionRegistered(_walletAddress, _name, _institutionType, block.timestamp);
     }
     
     /**
